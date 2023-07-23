@@ -15,10 +15,15 @@ const vuetify = createVuetify({
   directives
 })
 
+// axios
+import 'axios'
+import axios from 'axios'
+
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
 app.use(vuetify)
+app.use(axios)
 
 app.mount('#app')
