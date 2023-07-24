@@ -8,6 +8,11 @@ const userLocal = reactive({
   dong: ''
 })
 
+const weather = reactive({
+  TMP: '',
+  REH: ''
+})
+
 const GetWeather = () => {
   axiosInstance
     .get('/weather', {
@@ -22,6 +27,8 @@ const GetWeather = () => {
     })
     .then((result) => {
       console.log(result.data)
+      weather.TMP = result.data['tmp']
+      weather.REH = result.data['reh']
     })
     .catch((err) => {
       console.log(err)
@@ -33,5 +40,7 @@ const GetWeather = () => {
   <main>
     <h1>HOME</h1>
     <v-btn @click="GetWeather">요청</v-btn>
+    {{ weather.TMP }}
+    {{ weather.REH }}
   </main>
 </template>
