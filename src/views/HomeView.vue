@@ -8,7 +8,9 @@ import IconSearch from '@/components/icons/IconSearch.vue'
 const userLocal = reactive({
   city: '',
   district: '',
-  dong: ''
+  dong: '',
+  isSucces: false,
+  address: ''
 })
 
 const weather = reactive({
@@ -33,8 +35,13 @@ const GetWeather = () => {
     })
     .then((result) => {
       console.log(result.data)
-      weather.TMP = result.data['tmp']
-      weather.REH = result.data['reh']
+      if (result.status === 200) {
+        userLocal.isSucces = true
+        weather.TMP = result.data['tmp']
+        weather.REH = result.data['reh']
+        userLocal.address = userLocal.city + ' ' + userLocal.district + ' ' + userLocal.dong
+        console.log(userLocal.address)
+      }
     })
     .catch((err) => {
       console.log(err)
@@ -68,13 +75,13 @@ const GetWeather = () => {
             v-bind:value="userLocal.dong"
             @input="(event) => (userLocal.dong = event.target.value)"
           ></v-text-field>
-          <v-btn @click="GetWeather" class="border" size="x-large">요청</v-btn>
+          <v-btn @click="GetWeather" class="border" size="x-large">검색</v-btn>
         </div>
 
-        <v-card-title>오늘의 날씨</v-card-title>
-        <v-card-subtitle class="pr-2">인천광역시 부평구 삼산동 </v-card-subtitle>
+        <v-card-title v-if="userLocal.isSucces">오늘의 날씨</v-card-title>
+        <v-card-subtitle class="pr-2">{{ userLocal.address }}</v-card-subtitle>
       </v-card-item>
-      <v-card-text class="py-0 d-flex justify-center">
+      <v-card-text class="py-0 d-flex justify-center" v-if="userLocal.isSucces">
         <div class="text-h2">{{ weather.TMP }}&deg;</div>
         <div class="flex flex-column">
           <IconSunny />
@@ -82,7 +89,7 @@ const GetWeather = () => {
         </div>
       </v-card-text>
 
-      <div class="d-flex justify-center">
+      <div class="d-flex justify-center" v-if="userLocal.isSucces">
         <v-list-item>
           <v-list-item-subtitle>습도: {{ weather.REH }}%</v-list-item-subtitle>
         </v-list-item>
