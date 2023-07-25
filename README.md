@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # how-weather-vue
 
 This template should help get you started developing with Vue 3 in Vite.
@@ -33,3 +34,6 @@ npm run build
 ```sh
 npm run lint
 ```
+=======
+# how-weather-vue
+>>>>>>> cd0d8da8e662f81d9516439af3fe04fb2e9899d0
