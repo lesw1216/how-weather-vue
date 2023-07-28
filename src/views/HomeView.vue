@@ -2,8 +2,7 @@
 import { reactive } from 'vue'
 import axiosInstance from '@/api/axios'
 import { VCardItem, VCardSubtitle } from 'vuetify/lib/components/index.mjs'
-import IconSunny from '@/components/icons/IconSunny.vue'
-import IconSearch from '@/components/icons/IconSearch.vue'
+import Icons from '@/components/svgs/Icons.vue'
 
 const userLocal = reactive({
   city: '',
@@ -15,7 +14,8 @@ const userLocal = reactive({
 
 const weather = reactive({
   TMP: '',
-  REH: ''
+  REH: '',
+  SKY: ''
 })
 
 const GetWeather = () => {
@@ -39,6 +39,7 @@ const GetWeather = () => {
         userLocal.isSucces = true
         weather.TMP = result.data['tmp']
         weather.REH = result.data['reh']
+        weather.SKY = result.data['sky']
         userLocal.address = userLocal.city + ' ' + userLocal.district + ' ' + userLocal.dong
         console.log(userLocal.address)
       }
@@ -84,8 +85,8 @@ const GetWeather = () => {
       <v-card-text class="py-0 d-flex justify-center" v-if="userLocal.isSucces">
         <div class="text-h2">{{ weather.TMP }}&deg;</div>
         <div class="flex flex-column">
-          <IconSunny />
-          <p class="text-center">맑음</p>
+          <Icons :title="weather.SKY"></Icons>
+          <p class="text-center">{{ weather.SKY }}</p>
         </div>
       </v-card-text>
 
