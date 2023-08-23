@@ -12,10 +12,16 @@ const userLocal = reactive({
   address: ''
 })
 
+navigator.geolocation.getCurrentPosition((position) => {
+  console.log(position)
+})
+
 const weather = reactive({
   TMP: '',
   REH: '',
-  SKY: ''
+  SKY: '',
+  TMN: '',
+  TMX: ''
 })
 
 const GetWeather = () => {
@@ -40,6 +46,8 @@ const GetWeather = () => {
         weather.TMP = result.data['tmp']
         weather.REH = result.data['reh']
         weather.SKY = result.data['sky']
+        weather.TMX = result.data['tmx']
+        weather.TMN = result.data['tmn']
         userLocal.address = userLocal.city + ' ' + userLocal.district + ' ' + userLocal.dong
         console.log(userLocal.address)
       }
@@ -93,8 +101,13 @@ const GetWeather = () => {
       <div class="d-flex justify-center" v-if="userLocal.isSucces">
         <v-list-item>
           <v-list-item-subtitle>습도: {{ weather.REH }}%</v-list-item-subtitle>
+          <v-list-item-subtitle>일 최저기온: {{ weather.TMN }}&deg;</v-list-item-subtitle>
+          <v-list-item-subtitle>일 최고기온: {{ weather.TMX }}&deg;</v-list-item-subtitle>
         </v-list-item>
       </div>
+      <v-card-item class="text-center text-h4" v-if="!userLocal.isSucces">
+        지역을 입력해 주세요!!
+      </v-card-item>
     </v-card>
   </main>
 </template>
